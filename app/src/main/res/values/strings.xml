@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Alarm Clock App</string>
+    <string name="WelcomeFirst">Welcome to\nWakeUp Alarm!</string>
+    <string name="WelcomeSecond">Start your day right with our app.\nComplete tasks to turn off the alarm.\nWake up refreshed and ready to conquer the day!</string>
+    <string name="btnWelcome">Lets create your first alarm!</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+    <string name="tasks">Tasks</string>
+    <string name="settings">Settings</string>
+    <string name="set_ringtone_sound">Set Ringtone Sound</string>
+    <string name="preview">PREVIEW</string>
+    <string name="create_new_alarm">Create New Alarm</string>
+    <string name="taskSelection">Select Tasks</string>
+    <string name="none">None</string>
+    <string name="rewrite">Rewrite</string>
+    <string name="steps">Steps</string>
+    <string name="qr_code">QR CODE</string>
+    <string name="barcode">Barcode</string>
+    <string name="math">Math</string>
+    <string name="barcodeSettings">Barcode Settings</string>
+    <string name="mathSettings">Math Settings</string>
+    <string name="QRSettings">QR Settings</string>
+    <string name="rewriteSettings">Rewrite Settings</string>
+    <string name="stepsSettings">Steps Settings</string>
+    <string name="ringtoneSelection">Select ringtone sound</string>
+    <string name="basic_equasions_text">Number of equasions: 1</string>
+    <string name="easy_30_steps">Easy (30 steps)</string>
+    <string name="medium_70_steps">Medium (70 steps)</string>
+    <string name="hard_100_steps">Hard (100 steps)</string>
+    <string name="easy">Easy</string>
+    <string name="selectAlarmTime">Select Alarm Time</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="duplicate">Duplicate</string>
+
+</resources>

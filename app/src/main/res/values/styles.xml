@@ -1,0 +1,13 @@
+<resources>
+    <style name="Button.Grn" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/thrdColor</item>
+    </style>
+
+    <style name="CircularButtons">
+        <item name="android:background">@drawable/unselected_button</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">#336699</item>
+    </style>
+</resources>

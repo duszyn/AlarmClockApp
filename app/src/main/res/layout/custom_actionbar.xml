@@ -1,0 +1,28 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#336699"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/actionbar_back_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/left_arrow"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        app:tint="@color/thrdColor" />
+
+    <TextView
+        android:id="@+id/actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/open_sans_bold"
+        android:text="@string/create_new_alarm"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</RelativeLayout>

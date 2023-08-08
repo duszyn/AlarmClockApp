@@ -1,0 +1,26 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/emptyRingtoneIndicator"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/empty_circle"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        app:tint="@null" />
+
+    <TextView
+        android:id="@+id/ringtoneTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:layout_toRightOf="@id/emptyRingtoneIndicator"
+        android:layout_marginStart="8dp"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

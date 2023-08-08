@@ -1,0 +1,125 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainColor"
+    tools:context=".TaskSelectionActivity">
+
+    <Button
+        android:id="@+id/none"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangle_button_bckgrnd"
+        app:backgroundTint="@null"
+        android:drawableTop="@drawable/none"
+        android:paddingTop="10sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/none"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/rewrite"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangle_button_bckgrnd"
+        android:drawableTop="@drawable/rewrite"
+        android:paddingTop="10sp"
+        android:text="@string/rewrite"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/steps"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_button_bckgrnd"
+        android:drawableTop="@drawable/steps"
+        android:paddingTop="10sp"
+        android:text="@string/steps"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/math"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangle_button_bckgrnd"
+        android:drawableTop="@drawable/math"
+        android:paddingTop="10sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/math"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/none" />
+
+    <Button
+        android:id="@+id/qr"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rectangle_button_bckgrnd"
+        android:drawableTop="@drawable/qr"
+        android:paddingTop="10sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/qr_code"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rewrite" />
+
+    <Button
+        android:id="@+id/barcode"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rectangle_button_bckgrnd"
+        android:drawableTop="@drawable/barcode"
+        android:paddingTop="10sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/barcode"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/steps" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/thrdColor"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="#006832"
+        app:srcCompat="@drawable/done" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

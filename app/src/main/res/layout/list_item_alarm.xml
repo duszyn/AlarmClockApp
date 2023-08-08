@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mainColor">
+
+    <TextView
+        android:id="@+id/text_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/open_sans_bold"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="#DADDE2"
+        android:fontFamily="@font/open_sans"
+        android:layout_alignStart="@id/text_hour"
+        android:layout_below="@id/text_hour" />
+
+    <TextView
+        android:id="@+id/text_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textSize="16sp"
+        android:textColor="#DADDE2"
+        android:fontFamily="@font/open_sans_bold"
+        android:layout_toStartOf="@id/switch_alarm"
+        android:layout_centerVertical="true" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_alignTop="@id/text_counter"
+        android:layout_toStartOf="@id/btn_options"
+        android:layout_centerVertical="true"
+        android:textOff=""
+        android:textOn=""
+        android:thumb="@drawable/custom_switch_on" />
+
+    <ImageButton
+        android:id="@+id/btn_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/options"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>
