@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -69,10 +70,13 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
             startActivity(intent);
         });
 
+        // Initialize the alarms list
         alarms = new ArrayList<>();
-        // Set up the ListView and its adapter
-        ListView listView = findViewById(R.id.list_view);
+
+        // Initialize adapter
         adapter = new AlarmListAdapter(this, alarms, this);
+        // Set up the ListView
+        ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
 
         // Update selected task count (for example)
@@ -80,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
         adapter.setSelectedTaskCount(selectedTaskCount);
 
         alarmAdded = preferences.getBoolean("added", false);
+        System.out.println(alarmAdded);
+
         if (alarmAdded) {
             // Add an alarm
             Alarm newAlarm = new Alarm("08:30", new String[]{"Mon", "Fri", "Sun", "Thu"}, true);
@@ -87,20 +93,30 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
             alarms.add(newAlarm);
             adapter.notifyDataSetChanged();
         }
+
+        List<Alarm> loadedAlarms = loadAlarmsFromPreferences();
+        if (!loadedAlarms.isEmpty()) {
+            alarms.addAll(loadedAlarms);
+            adapter.notifyDataSetChanged();
+        }
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+//        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 //        // Check if a new alarm was added or an existing alarm was edited
-//        boolean alarmAdded = preferences.getBoolean("added", false);
+//        alarmAdded = preferences.getBoolean("added", false);
 //        boolean alarmEdited = preferences.getBoolean("edited", false);
 //
 //        if (alarmAdded || alarmEdited) {
 //            // Reload alarms from SharedPreferences
 //            alarms = loadAlarmsFromPreferences();
-//            adapter.setAlarms(alarms);
+//            adapter = new AlarmListAdapter(this, alarms, this); // Create a new adapter instance
+//            ListView listView = findViewById(R.id.list_view);
+//            listView.setAdapter(adapter); // Set the new adapter to the ListView
 //            adapter.notifyDataSetChanged();
 //
 //            // Reset the added and edited flags
@@ -139,19 +155,21 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
 
     private List<Alarm> loadAlarmsFromPreferences() {
         List<Alarm> loadedAlarms = new ArrayList<>();
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE); // Retrieve the shared preferences
         Gson gson = new Gson();
         String json = preferences.getString("alarms", null);
         if (json != null) {
             Type type = new TypeToken<List<Alarm>>() {}.getType();
             loadedAlarms = gson.fromJson(json, type);
+            Log.d("DEBUG", "Loaded alarms: " + loadedAlarms.toString());
         }
         return loadedAlarms;
     }
 
     private void saveAlarmsToPreferences() {
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE); // Retrieve the shared preferences
         Gson gson = new Gson();
         String json = gson.toJson(alarms);
-        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         preferences.edit().putString("alarms", json).apply();
     }
 }

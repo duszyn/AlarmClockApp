@@ -76,27 +76,13 @@ public class AlarmCreationActivity extends AppCompatActivity {
         sat = findViewById(R.id.sat);
         sun = findViewById(R.id.sun);
 
-        mon.setOnClickListener(v -> {
-            toggleButton(mon, "Mon");
-        });
-        tue.setOnClickListener(v -> {
-            toggleButton(tue, "Tue");
-        });
-        wed.setOnClickListener(v -> {
-            toggleButton(wed, "Wed");
-        });
-        thu.setOnClickListener(v -> {
-            toggleButton(thu, "Thu");
-        });
-        fri.setOnClickListener(v -> {
-            toggleButton(fri, "Fri");
-        });
-        sat.setOnClickListener(v -> {
-            toggleButton(sat, "Sat");
-        });
-        sun.setOnClickListener(v -> {
-            toggleButton(sun, "Sun");
-        });
+        mon.setOnClickListener(v -> toggleButton(mon, "Mon"));
+        tue.setOnClickListener(v -> toggleButton(tue, "Tue"));
+        wed.setOnClickListener(v -> toggleButton(wed, "Wed"));
+        thu.setOnClickListener(v -> toggleButton(thu, "Thu"));
+        fri.setOnClickListener(v -> toggleButton(fri, "Fri"));
+        sat.setOnClickListener(v -> toggleButton(sat, "Sat"));
+        sun.setOnClickListener(v -> toggleButton(sun, "Sun"));
 
         displayedHour = findViewById(R.id.hour);
         displayedHour.setOnClickListener(v -> {
