@@ -6,11 +6,10 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.RingtoneManager;
-import android.net.ParseException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,11 +24,8 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -136,7 +132,8 @@ public class AlarmCreationActivity extends AppCompatActivity {
             int minute = Integer.parseInt(parts[1]);
             setAlarm(hour, minute);
             editor.remove("selectedRingtoneTitle");
-            editor.putBoolean("added", true);
+            preferences.edit().putBoolean("added", true).apply();
+            Log.e("added", "is added " + preferences.getBoolean("added", false));
             editor.apply();
 
             Intent intent = new Intent(AlarmCreationActivity.this, MainActivity.class);

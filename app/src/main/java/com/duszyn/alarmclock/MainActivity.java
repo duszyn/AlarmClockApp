@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
     FloatingActionButton addButton;
     private List<Alarm> alarms;
     private AlarmListAdapter adapter;
-    private String selectedRingtoneTitle;
+    boolean alarmAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
         backButton.setVisibility(View.GONE);
         TextView textViewAB = actionBar.getCustomView().findViewById(R.id.actionbar_title);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         if (!preferences.getBoolean("welcome", false)) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             overridePendingTransition(0, 0);
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
         int selectedTaskCount = 5; // Example value
         adapter.setSelectedTaskCount(selectedTaskCount);
 
-        boolean alarmAdded = preferences.getBoolean("added", false);
+        alarmAdded = preferences.getBoolean("added", false);
         if (alarmAdded) {
             // Add an alarm
             Alarm newAlarm = new Alarm("08:30", new String[]{"Mon", "Fri", "Sun", "Thu"}, true);
@@ -152,8 +151,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
     private void saveAlarmsToPreferences() {
         Gson gson = new Gson();
         String json = gson.toJson(alarms);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("alarms", json);
-        editor.apply();
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        preferences.edit().putString("alarms", json).apply();
     }
 }

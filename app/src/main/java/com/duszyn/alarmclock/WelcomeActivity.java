@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,7 +16,6 @@ import androidx.core.content.ContextCompat;
 
 public class WelcomeActivity extends AppCompatActivity {
     Button button;
-    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +45,7 @@ public class WelcomeActivity extends AppCompatActivity {
         textViewAB.setText("ALARM CLOCK APP");
 
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         button = findViewById(R.id.nextActivity);
         button.setOnClickListener(v -> {
             SharedPreferences.Editor preferencesEditor = preferences.edit();
