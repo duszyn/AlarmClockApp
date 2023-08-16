@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AlarmCreationActivity extends AppCompatActivity {
 
@@ -119,10 +120,11 @@ public class AlarmCreationActivity extends AppCompatActivity {
             setAlarm(hour, minute);
             editor.remove("selectedRingtoneTitle");
             preferences.edit().putBoolean("added", true).apply();
-            Log.e("added", "is added " + preferences.getBoolean("added", false));
             editor.apply();
-
+            printOrder(selectedDays);
             Intent intent = new Intent(AlarmCreationActivity.this, MainActivity.class);
+            intent.putStringArrayListExtra("days", new ArrayList<>(selectedDays)); // Convert the list to an ArrayList
+            intent.putExtra("hour", time);
             startActivity(intent);
 
             finish();
@@ -142,11 +144,10 @@ public class AlarmCreationActivity extends AppCompatActivity {
 
     private void printOrder(List<String> selectedDays) {
         StringBuilder sb = new StringBuilder();
-
         String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
         for (String day : daysOfWeek) {
             if (selectedDays.contains(day)) {
-                sb.append(day.substring(0, 3)).append(" "); // Display the first three letters of the day
+                String.valueOf(sb.append(day.substring(0, 3)).append(" ")); // Display the first three letters of the day
             }
         }
     }
@@ -160,10 +161,10 @@ public class AlarmCreationActivity extends AppCompatActivity {
         int currentMinute = currentCalendar.get(Calendar.MINUTE);
 
         // Adjust the alarm time if it's before the current time
-//        if (hour < currentHour || (hour == currentHour && minute <= currentMinute)) {
-//            // Add 24 hours to the alarm time
-//            hour += 24;
-//        }
+        if (hour < currentHour || (hour == currentHour && minute <= currentMinute)) {
+            // Add 24 hours to the alarm time
+            hour += 24;
+        }
 
         // Set the alarm time
         Calendar alarmCalendar = Calendar.getInstance();

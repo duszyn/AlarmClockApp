@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
 
         if (alarmAdded) {
             // Add an alarm
-            Alarm newAlarm = new Alarm("08:30", new String[]{"Mon", "Fri", "Sun", "Thu"}, true);
+            Intent intent = getIntent();
+            ArrayList<String> receivedDaysList = intent.getStringArrayListExtra("days");
+            Alarm newAlarm = new Alarm(intent.getStringExtra("hour"), receivedDaysList.toArray(new String[0]), true);
             preferences.edit().putBoolean("added", false).apply();
             alarms.add(newAlarm);
             adapter.notifyDataSetChanged();
@@ -100,31 +102,12 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
             adapter.notifyDataSetChanged();
         }
 
-
+        saveAlarmsToPreferences();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-//        // Check if a new alarm was added or an existing alarm was edited
-//        alarmAdded = preferences.getBoolean("added", false);
-//        boolean alarmEdited = preferences.getBoolean("edited", false);
-//
-//        if (alarmAdded || alarmEdited) {
-//            // Reload alarms from SharedPreferences
-//            alarms = loadAlarmsFromPreferences();
-//            adapter = new AlarmListAdapter(this, alarms, this); // Create a new adapter instance
-//            ListView listView = findViewById(R.id.list_view);
-//            listView.setAdapter(adapter); // Set the new adapter to the ListView
-//            adapter.notifyDataSetChanged();
-//
-//            // Reset the added and edited flags
-//            SharedPreferences.Editor editor = preferences.edit();
-//            editor.putBoolean("added", false);
-//            editor.putBoolean("edited", false);
-//            editor.apply();
-//        }
     }
 
     @Override
