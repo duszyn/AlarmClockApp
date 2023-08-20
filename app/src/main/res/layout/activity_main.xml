@@ -7,8 +7,8 @@
     tools:context=".MainActivity"
     android:background="@color/mainColor">
 
-    <ListView
-        android:id="@+id/list_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycyler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:divider="@android:color/darker_gray"

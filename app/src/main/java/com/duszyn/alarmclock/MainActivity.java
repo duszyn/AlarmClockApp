@@ -2,18 +2,17 @@ package com.duszyn.alarmclock;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -23,12 +22,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AlarmListAdapter.OnOptionsClickListener {
+public class MainActivity extends AppCompatActivity implements AlarmRecyclerViewAdapter.OnOptionsClickListener {
 
-    SharedPreferences preferences;
     FloatingActionButton addButton;
     private List<Alarm> alarms;
-    private AlarmListAdapter adapter;
+    private AlarmRecyclerViewAdapter adapter;
     boolean alarmAdded;
 
     @Override
@@ -37,10 +35,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
         setContentView(R.layout.activity_main);
 
         // Set the system bar color to the system default
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.mainColor));
-        }
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.mainColor));
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -50,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        assert actionBar != null;
         ImageView backButton = actionBar.getCustomView().findViewById(R.id.actionbar_back_button);
         backButton.setVisibility(View.GONE);
         TextView textViewAB = actionBar.getCustomView().findViewById(R.id.actionbar_title);
@@ -74,17 +68,13 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
         alarms = new ArrayList<>();
 
         // Initialize adapter
-        adapter = new AlarmListAdapter(this, alarms, this);
-        // Set up the ListView
-        ListView listView = findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
-
-        // Update selected task count (for example)
-        int selectedTaskCount = 5; // Example value
-        adapter.setSelectedTaskCount(selectedTaskCount);
+        adapter = new AlarmRecyclerViewAdapter(alarms, this);
+        // Set up the RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.recycyler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
         alarmAdded = preferences.getBoolean("added", false);
-        System.out.println(alarmAdded);
 
         if (alarmAdded) {
             // Add an alarm
@@ -106,11 +96,6 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onEditClick(int position) {
         // Open AlarmCreationActivity to edit the selected alarm
         Intent intent = new Intent(this, AlarmCreationActivity.class);
@@ -123,17 +108,26 @@ public class MainActivity extends AppCompatActivity implements AlarmListAdapter.
         // Delete the selected alarm
         alarms.remove(position);
         adapter.notifyDataSetChanged();
+
         saveAlarmsToPreferences();
+
+        printAlarmsToLog(alarms);
+    }
+
+    private void printAlarmsToLog(List<Alarm> alarms) {
+        for (int i = 0; i < alarms.size(); i++) {
+            Log.d("DUPLICATE", "Alarm " + i + ": " + alarms.get(i).getHour() + ", Enabled: " + alarms.get(i).isEnabled());
+        }
     }
 
     @Override
     public void onDuplicateClick(int position) {
         // Duplicate the selected alarm
         Alarm originalAlarm = alarms.get(position);
-        Alarm duplicatedAlarm = new Alarm(originalAlarm.getTime(), originalAlarm.getDays(), originalAlarm.isActive());
+        Alarm duplicatedAlarm = new Alarm(originalAlarm.getHour(), originalAlarm.getDays(), originalAlarm.isEnabled());
         alarms.add(position + 1, duplicatedAlarm);
-        adapter.notifyDataSetChanged();
         saveAlarmsToPreferences();
+        adapter.notifyDataSetChanged();
     }
 
     private List<Alarm> loadAlarmsFromPreferences() {

@@ -8,7 +8,6 @@ public class Alarm {
     private boolean enabled;
     private PendingIntent pendingIntent;
     private String time;
-    private boolean isActive;
 
     public Alarm(String hour, String[] days, boolean enabled) {
         this.hour = hour;
@@ -40,17 +39,5 @@ public class Alarm {
 
     public void setPendingIntent(PendingIntent pendingIntent) {
         this.pendingIntent = pendingIntent;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 }

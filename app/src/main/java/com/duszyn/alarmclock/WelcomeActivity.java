@@ -55,6 +55,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AlarmCreationActivity.class);
             overridePendingTransition(0,0);
             startActivity(intent);
+            finish();
         });
 
     }
