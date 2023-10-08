@@ -19,31 +19,31 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".BarcodeSettings"
+            android:name=".settings.BarcodeSettings"
             android:exported="false" />
         <activity
-            android:name=".QRSettings"
+            android:name=".settings.QRSettings"
             android:exported="false" />
         <activity
-            android:name=".MathSettings"
+            android:name=".settings.MathSettings"
             android:exported="false" />
         <activity
-            android:name=".StepsSettings"
+            android:name=".settings.StepsSettings"
             android:exported="false" />
         <activity
-            android:name=".RewriteSettings"
+            android:name=".settings.RewriteSettings"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".TaskSelectionActivity"
+            android:name=".activities.TaskSelectionActivity"
             android:exported="false" />
         <activity
-            android:name=".AlarmCreationActivity"
+            android:name=".activities.AlarmCreationActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,17 +52,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".activities.WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".RingtoneSelectionActivity"
+            android:name=".activities.RingtoneSelectionActivity"
             android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver android:name=".alarms.AlarmReceiver" />
     </application>
 
 </manifest>

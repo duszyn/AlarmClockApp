@@ -1,4 +1,4 @@
-package com.duszyn.alarmclock;
+package com.duszyn.alarmclock.settings;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.duszyn.alarmclock.R;
 
 public class BarcodeSettings extends AppCompatActivity {
 

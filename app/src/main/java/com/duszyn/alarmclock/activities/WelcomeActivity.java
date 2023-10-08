@@ -1,4 +1,4 @@
-package com.duszyn.alarmclock;
+package com.duszyn.alarmclock.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.duszyn.alarmclock.R;
+import com.duszyn.alarmclock.activities.AlarmCreationActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
     Button button;

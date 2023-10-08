@@ -1,4 +1,4 @@
-package com.duszyn.alarmclock;
+package com.duszyn.alarmclock.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,12 +10,14 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class QRSettings extends AppCompatActivity {
+import com.duszyn.alarmclock.R;
+
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qrsettings);
+        setContentView(R.layout.activity_settings);
 
         // Set the system bar color to the system default
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -33,10 +35,9 @@ public class QRSettings extends AppCompatActivity {
 
         assert actionBar != null;
         ImageView backButton = actionBar.getCustomView().findViewById(R.id.actionbar_back_button);
-        backButton.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
         TextView textViewAB = actionBar.getCustomView().findViewById(R.id.actionbar_title);
-        textViewAB.setText(R.string.QRSettings);
+        textViewAB.setText(R.string.settings);
+
     }
 }

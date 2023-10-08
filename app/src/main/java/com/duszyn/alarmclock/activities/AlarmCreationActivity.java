@@ -1,4 +1,4 @@
-package com.duszyn.alarmclock;
+package com.duszyn.alarmclock.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,13 +14,15 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.duszyn.alarmclock.alarms.Alarm;
+import com.duszyn.alarmclock.alarms.AlarmReceiver;
+import com.duszyn.alarmclock.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,16 +30,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class AlarmCreationActivity extends AppCompatActivity {
 
-    TextView displayedHour;
-    int hour, minute;
-    Button mon, tue, wed, thu, fri, sat, sun;
-    MaterialButton tasks, settings, ringtoneSettings;
-    FloatingActionButton done;
+    private TextView displayedHour;
+    private int hour, minute;
+    private Button mon, tue, wed, thu, fri, sat, sun;
     private List<String> selectedDays;
+    PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +51,8 @@ public class AlarmCreationActivity extends AppCompatActivity {
         }
 
         // Set the system bar color to the system default
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.mainColor));
-        }
+        Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.mainColor));
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -90,19 +88,19 @@ public class AlarmCreationActivity extends AppCompatActivity {
             popTimePicker();
         });
 
-        tasks = findViewById(R.id.tasks);
+        MaterialButton tasks = findViewById(R.id.tasks);
         tasks.setOnClickListener(v -> {
             Intent intent = new Intent(this, TaskSelectionActivity.class);
             startActivity(intent);
         });
 
-        settings = findViewById(R.id.settings);
+        MaterialButton settings = findViewById(R.id.settings);
         settings.setOnClickListener(v -> {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         });
 
-        ringtoneSettings = findViewById(R.id.ringtoneSettings);
+        MaterialButton ringtoneSettings = findViewById(R.id.ringtoneSettings);
         ringtoneSettings.setOnClickListener(v -> {
             Intent intent = new Intent(this, RingtoneSelectionActivity.class);
             startActivity(intent);
@@ -110,7 +108,7 @@ public class AlarmCreationActivity extends AppCompatActivity {
 
         /*defining done button, removing previously selected ringtone (to set deafult ringtone as deafult again
         finishing the activity, setting alarm*/
-        done = findViewById(R.id.done);
+        FloatingActionButton done = findViewById(R.id.done);
         done.setOnClickListener(v -> {
             SharedPreferences.Editor editor = preferences.edit();
             String time = (String) displayedHour.getText();
@@ -118,13 +116,13 @@ public class AlarmCreationActivity extends AppCompatActivity {
             int hour = Integer.parseInt(parts[0]);
             int minute = Integer.parseInt(parts[1]);
             setAlarm(hour, minute);
-            editor.remove("selectedRingtoneTitle");
             preferences.edit().putBoolean("added", true).apply();
             editor.apply();
             printOrder(selectedDays);
             Intent intent = new Intent(AlarmCreationActivity.this, MainActivity.class);
             intent.putStringArrayListExtra("days", new ArrayList<>(selectedDays)); // Convert the list to an ArrayList
             intent.putExtra("hour", time);
+            intent.putExtra("alarmIntent", pendingIntent);
             startActivity(intent);
 
             finish();
@@ -152,7 +150,7 @@ public class AlarmCreationActivity extends AppCompatActivity {
         }
     }
 
-    private void setAlarm(int hour, int minute) {
+    protected void setAlarm(int hour, int minute) {
         SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
@@ -186,8 +184,6 @@ public class AlarmCreationActivity extends AppCompatActivity {
         // Create a unique request code for each alarm
         int requestCode = (int) System.currentTimeMillis();
 
-        PendingIntent pendingIntent;
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             pendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         } else {
@@ -202,12 +198,8 @@ public class AlarmCreationActivity extends AppCompatActivity {
                 // Handle case when exact alarms cannot be scheduled
                 Toast.makeText(this, "Cannot schedule exact alarms on this device", Toast.LENGTH_SHORT).show();
             }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
         } else {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
         }
 
         // Save the selected ringtone URI in SharedPreferences
@@ -232,5 +224,22 @@ public class AlarmCreationActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, onTimeSetListener, hour, minute, true);
 
         timePickerDialog.show();
+    }
+    protected void cancelAlarm(Alarm alarm) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+
+        // Create a unique request code for each alarm
+        int requestCode = alarm.hashCode();
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        Log.d("DEBUG", "Canceling alarm: " + alarm.getHour());
+        // Cancel the alarm using AlarmManager
+        alarmManager.cancel(pendingIntent);
     }
 }

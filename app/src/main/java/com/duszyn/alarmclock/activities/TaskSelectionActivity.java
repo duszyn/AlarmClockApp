@@ -1,4 +1,4 @@
-package com.duszyn.alarmclock;
+package com.duszyn.alarmclock.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.button.MaterialButton;
+import com.duszyn.alarmclock.settings.BarcodeSettings;
+import com.duszyn.alarmclock.settings.MathSettings;
+import com.duszyn.alarmclock.settings.QRSettings;
+import com.duszyn.alarmclock.R;
+import com.duszyn.alarmclock.settings.RewriteSettings;
+import com.duszyn.alarmclock.settings.StepsSettings;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class TaskSelectionActivity extends AppCompatActivity {

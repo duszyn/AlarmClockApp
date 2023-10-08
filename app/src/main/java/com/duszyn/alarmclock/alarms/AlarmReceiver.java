@@ -1,4 +1,4 @@
-package com.duszyn.alarmclock;
+package com.duszyn.alarmclock.alarms;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

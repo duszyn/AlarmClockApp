@@ -1,4 +1,4 @@
-package com.duszyn.alarmclock;
+package com.duszyn.alarmclock.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +14,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.duszyn.alarmclock.alarms.Alarm;
+import com.duszyn.alarmclock.alarms.AlarmRecyclerViewAdapter;
+import com.duszyn.alarmclock.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements AlarmRecyclerView
         alarms = new ArrayList<>();
 
         // Initialize adapter
-        adapter = new AlarmRecyclerViewAdapter(alarms, this);
+        adapter = new AlarmRecyclerViewAdapter(alarms, this, this, preferences);
         // Set up the RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recycyler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,9 +83,10 @@ public class MainActivity extends AppCompatActivity implements AlarmRecyclerView
             // Add an alarm
             Intent intent = getIntent();
             ArrayList<String> receivedDaysList = intent.getStringArrayListExtra("days");
-            Alarm newAlarm = new Alarm(intent.getStringExtra("hour"), receivedDaysList.toArray(new String[0]), true);
+            Alarm newAlarm = new Alarm(intent.getStringExtra("hour"), receivedDaysList.toArray(new String[0]), true, preferences.getString("selectedRingtoneUri", null), intent.getParcelableExtra("alarmIntent"));
             preferences.edit().putBoolean("added", false).apply();
             alarms.add(newAlarm);
+            preferences.edit().remove("selectedRingtoneUri").apply();
             adapter.notifyDataSetChanged();
         }
 
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements AlarmRecyclerView
             alarms.addAll(loadedAlarms);
             adapter.notifyDataSetChanged();
         }
-
+//        adapter.setAlarmSwitchListener(this);
         saveAlarmsToPreferences();
     }
 
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements AlarmRecyclerView
     public void onDuplicateClick(int position) {
         // Duplicate the selected alarm
         Alarm originalAlarm = alarms.get(position);
-        Alarm duplicatedAlarm = new Alarm(originalAlarm.getHour(), originalAlarm.getDays(), originalAlarm.isEnabled());
+        Alarm duplicatedAlarm = new Alarm(originalAlarm.getHour(), originalAlarm.getDays(), originalAlarm.isEnabled(), originalAlarm.getRingtoneUri(), originalAlarm.getPendingIntent());
         alarms.add(position + 1, duplicatedAlarm);
         saveAlarmsToPreferences();
         adapter.notifyDataSetChanged();
@@ -148,5 +152,6 @@ public class MainActivity extends AppCompatActivity implements AlarmRecyclerView
         Gson gson = new Gson();
         String json = gson.toJson(alarms);
         preferences.edit().putString("alarms", json).apply();
+        printAlarmsToLog(alarms);
     }
 }
